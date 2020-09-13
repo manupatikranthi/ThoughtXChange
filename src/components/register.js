@@ -1,11 +1,13 @@
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import axios from "axios";
 
 export default function Register(props) {
   const [show, setShow] = React.useState(true);
   const [email, setEmail] = React.useState();
   const [fullName, setFullName] = React.useState();
   const [age, setAge] = React.useState();
+  const [phone, setPhone] = React.useState();
   const [userName, setUserName] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
@@ -21,11 +23,21 @@ export default function Register(props) {
       Email: email,
       FullName: fullName,
       Age: parseInt(age),
+      CredentialId: 1,
       Credential: { UserName: userName, Password: password },
+      Phone: phone,
     };
     console.log("Testing the object: ", userData);
 
-    // The api call to post details
+    //The api call to post details
+    axios
+      .post("https://test-new-asp.azurewebsites.net/users", userData)
+      .then((response) => {
+        console.log("Successfully posted data : ", response);
+      })
+      .catch((exception) =>
+        console.log("exception in posting data : ", exception)
+      );
   };
 
   return (
@@ -63,6 +75,16 @@ export default function Register(props) {
                 placeholder="Age"
                 value={age}
                 onChange={(event) => setAge(event.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formPhone">
+              <Form.Label>PhoneNumber</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Phone Number"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
               />
             </Form.Group>
 
