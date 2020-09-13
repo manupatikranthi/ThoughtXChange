@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Modal, Button, Form } from "react-bootstrap";
+import Register from "./register";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,14 +23,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const classes = useStyles();
-  const [show, setShow] = React.useState(false);
+  const [showRegister, setShowRegister] = React.useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleFormSubmit = (event) => {
-    console.log(document.getElementById("formEmail").value);
-    setShow(false);
+  const handleShow = (value) => {
+    console.log("The value: ", value);
+    setShowRegister(value);
   };
 
   return (
@@ -47,58 +45,13 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             ThoughtXChange
           </Typography>
-          <Button color="inherit" onClick={handleShow}>
+          <Button color="inherit" onClick={() => handleShow(true)}>
             Register
           </Button>
         </Toolbar>
       </AppBar>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Register</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form id="registrationForm" onSubmit={handleFormSubmit}>
-            <Form.Group controlId="formEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-
-            <Form.Group controlId="formFullName">
-              <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" placeholder="Full name" />
-            </Form.Group>
-
-            <Form.Group controlId="formAge">
-              <Form.Label>Age</Form.Label>
-              <Form.Control type="number" placeholder="Age" />
-            </Form.Group>
-
-            <Form.Group controlId="formUserName">
-              <Form.Label>User Name</Form.Label>
-              <Form.Control type="text" placeholder="User name" />
-            </Form.Group>
-
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-
-            <Form.Group controlId="formConfirmPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control type="password" placeholder="Confirm Password" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleFormSubmit}>
-            submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showRegister ? <Register updateParent={handleShow} /> : <div></div>}
     </div>
   );
 }
